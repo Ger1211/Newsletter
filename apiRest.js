@@ -4,9 +4,9 @@ let router = express.Router();
 let port = process.env.PORT || 3001;
 app.use(express.json());
 
-router.get("/", function (req, res) {
-  res.status(200);
-  res.json({ message: "hooray! welcome to our API" });
+router.post("/notify", function (req, res) {
+  console.log("Data:", req.body);
+  res.status(200).send();
 });
-app.use("/", router);
+app.use("/api", router);
 app.listen(port, () => console.log(`Port ${port} listening`));
