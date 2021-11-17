@@ -33,6 +33,19 @@ router
     } else {
       next(new InvalidBodyError());
     }
+  })
+  .post("/unsubscribe", function (req, res, next) {
+    if (req.body.artistId && req.body.email) {
+      getNewsletter()
+        .getArtist(req.body.artistId)
+        .then(() => {
+          getNewsletter().deleteSubscriptor(req.body.artistId, req.body.email);
+          res.status(200).send();
+        })
+        .catch((error) => res.status(error.statusCode).send(error.error));
+    } else {
+      next(new InvalidBodyError());
+    }
   });
 
 function errorHandler(err, req, res, next) {

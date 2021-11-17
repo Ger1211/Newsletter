@@ -1,11 +1,11 @@
 const picklify = require("picklify");
-const fs = require("fs"); 
+const fs = require("fs");
 const Subscriptor = require("./domain/subscriptor");
 const unqfy = require("./services/unqfy");
 
 class Newsletter {
   constructor() {
-    this.subscriptors = []
+    this.subscriptors = [];
   }
 
   getArtist(artistId) {
@@ -13,15 +13,28 @@ class Newsletter {
   }
 
   addSubscriptor(artistId, email) {
-    if(!this.subscriptorExist(artistId, email)) {
+    if (!this.subscriptorExist(artistId, email)) {
       let subscriptor = new Subscriptor(artistId, email);
       this.subscriptors.push(subscriptor);
       this.save("data.json");
     }
   }
 
+  deleteSubscriptor(artistId, email) {
+    if (this.subscriptorExist(artistId, email)) {
+      const indexToDelete = this.subscriptors.findIndex(
+        (sub) => sub.artistId === artistId && sub.email === email
+      );
+      this.subscriptors.splice(indexToDelete, 1);
+      this.save("data.json");
+    }
+  }
+
   subscriptorExist(artistId, email) {
-    return this.subscriptors.some(subscriptor => (subscriptor.artistId === artistId && subscriptor.email == email));
+    return this.subscriptors.some(
+      (subscriptor) =>
+        subscriptor.artistId === artistId && subscriptor.email == email
+    );
   }
 
   save(filename) {
