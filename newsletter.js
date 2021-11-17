@@ -1,10 +1,27 @@
-const picklify = require("picklify"); // para cargar/guarfar unqfy
+const picklify = require("picklify");
 const fs = require("fs"); 
 const Subscriptor = require("./domain/subscriptor");
+const unqfy = require("./services/unqfy");
 
 class Newsletter {
   constructor() {
     this.subscriptors = []
+  }
+
+  getArtist(artistId) {
+    return unqfy.findArtist(artistId);
+  }
+
+  addSubscriptor(artistId, email) {
+    if(!this.subscriptorExist(artistId, email)) {
+      let subscriptor = new Subscriptor(artistId, email);
+      this.subscriptors.push(subscriptor);
+      this.save("data.json");
+    }
+  }
+
+  subscriptorExist(artistId, email) {
+    return this.subscriptors.some(subscriptor => (subscriptor.artistId === artistId && subscriptor.email == email));
   }
 
   save(filename) {

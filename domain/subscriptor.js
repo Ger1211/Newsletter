@@ -4,3 +4,5 @@ class Subscriptor {
         this.email = _email;
     }
 }
+
+module.exports = Subscriptor;
