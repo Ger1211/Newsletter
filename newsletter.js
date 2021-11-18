@@ -37,6 +37,17 @@ class Newsletter {
     );
   }
 
+  sendEmail(emailData) {
+    const subscriptors = this.subscriptors
+      .map((sub) => {
+        if (sub.artistId === emailData.artistId) {
+          return sub.email;
+        }
+      })
+      .filter((elem) => elem !== undefined);
+    console.log(subscriptors);
+  }
+
   save(filename) {
     const serializedData = picklify.picklify(this);
     fs.writeFileSync(filename, JSON.stringify(serializedData, null, 2));

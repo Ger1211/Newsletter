@@ -18,8 +18,15 @@ app.use(express.json());
 
 router
   .post("/notify", function (req, res) {
-    console.log("Data:", req.body);
-    res.status(200).send();
+    //console.log("Data:", req.body);
+    //const artistId = req.body.artistId;
+    getNewsletter()
+      .getArtist(req.body.artistId)
+      .then(() => {
+        getNewsletter().sendEmail(req.body);
+        res.status(200).send();
+      })
+      .catch((error) => res.status(error.statusCode).send(error.error));
   })
   .post("/subscribe", function (req, res, next) {
     if (req.body.artistId && req.body.email) {
