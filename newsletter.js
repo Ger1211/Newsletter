@@ -38,14 +38,32 @@ class Newsletter {
   }
 
   sendEmail(emailData) {
-    const subscriptors = this.subscriptors
+    const subscriptors = this.getEmails(emailData.artistId);
+    console.log(subscriptors);
+  }
+
+  getEmails(artistId) {
+    return this.subscriptors
       .map((sub) => {
-        if (sub.artistId === emailData.artistId) {
+        if (sub.artistId === artistId) {
           return sub.email;
         }
       })
       .filter((elem) => elem !== undefined);
-    console.log(subscriptors);
+  }
+
+  getSubscriptions(artistId) {
+    let subscriptions = {};
+    subscriptions.artistId = artistId;
+    let subscriptors = this.getEmails(artistId);
+    subscriptions.subscriptors = subscriptors;
+    return subscriptions; 
+  }
+
+  deleteSubsriptions(artistId) {
+    let subsAfterDelete = this.subscriptors.filter(sub => sub.artistId !== artistId);
+    this.subscriptors = subsAfterDelete;
+    this.save("data.json");
   }
 
   save(filename) {
