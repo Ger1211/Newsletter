@@ -354,3 +354,7 @@ MigrationBackup/
 data.json
 
 spotifyCreds.json
+
+credentials.json
+
+token.json

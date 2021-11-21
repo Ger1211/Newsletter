@@ -2,6 +2,7 @@ const picklify = require("picklify");
 const fs = require("fs");
 const Subscriptor = require("./domain/subscriptor");
 const unqfy = require("./services/unqfy");
+const GMailAPIClient = require("./GMailAPIClient");
 
 class Newsletter {
   constructor() {
@@ -39,6 +40,14 @@ class Newsletter {
 
   sendEmail(emailData) {
     const subscriptors = this.getEmails(emailData.artistId);
+    subscriptors.forEach(email => {
+      new GMailAPIClient().send_mail(
+        emailData.subject,
+        [emailData.message],
+        { name: "receiver", email: email },
+        { name: "sender", email: "gmcabrera121190@gmail.com" }
+      );
+    })
     console.log(subscriptors);
   }
 
@@ -57,11 +66,13 @@ class Newsletter {
     subscriptions.artistId = artistId;
     let subscriptors = this.getEmails(artistId);
     subscriptions.subscriptors = subscriptors;
-    return subscriptions; 
+    return subscriptions;
   }
 
   deleteSubsriptions(artistId) {
-    let subsAfterDelete = this.subscriptors.filter(sub => sub.artistId !== artistId);
+    let subsAfterDelete = this.subscriptors.filter(
+      (sub) => sub.artistId !== artistId
+    );
     this.subscriptors = subsAfterDelete;
     this.save("data.json");
   }
