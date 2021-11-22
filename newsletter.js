@@ -48,7 +48,6 @@ class Newsletter {
         { name: "sender", email: "gmcabrera121190@gmail.com" }
       );
     })
-    console.log(subscriptors);
   }
 
   getEmails(artistId) {
@@ -69,7 +68,7 @@ class Newsletter {
     return subscriptions;
   }
 
-  deleteSubsriptions(artistId) {
+  deleteSubscriptions(artistId) {
     let subsAfterDelete = this.subscriptors.filter(
       (sub) => sub.artistId !== artistId
     );

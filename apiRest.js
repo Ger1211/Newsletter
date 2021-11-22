@@ -72,7 +72,7 @@ router
       getNewsletter()
         .getArtist(parseInt(req.body.artistId))
         .then(() => {
-          let subscriptions = getNewsletter().deleteSubsriptions(
+          let subscriptions = getNewsletter().deleteSubscriptions(
             parseInt(req.body.artistId)
           );
           res.status(200).send(subscriptions);
