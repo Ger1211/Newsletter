@@ -68,16 +68,11 @@ router
       .catch((error) => res.status(error.statusCode).send(error.error));
   })
   .delete("/subscriptions", function (req, res, next) {
-    if (req.body.artistId) {
-      getNewsletter()
-        .getArtist(parseInt(req.body.artistId))
-        .then(() => {
-          let subscriptions = getNewsletter().deleteSubscriptions(
-            parseInt(req.body.artistId)
-          );
-          res.status(200).send(subscriptions);
-        })
-        .catch((error) => res.status(error.statusCode).send(error.error));
+    if (req.body.id) {
+      let subscriptions = getNewsletter().deleteSubscriptions(
+        parseInt(req.body.id)
+      );
+      res.status(200).send(subscriptions);
     } else {
       next(new InvalidBodyError());
     }
