@@ -17,6 +17,9 @@ let port = process.env.PORT || 3001;
 app.use(express.json());
 
 router
+  .get("/status", function (req, res) {
+    res.status(200).send();
+  })
   .post("/notify", function (req, res, next) {
     if (req.body.artistId && req.body.subject && req.body.message) {
       getNewsletter()
