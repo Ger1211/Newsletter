@@ -41,7 +41,7 @@ router
           getNewsletter().addSubscriptor(req.body.artistId, req.body.email);
           res.status(200).send();
         })
-        .catch((error) => res.status(error.statusCode).send(error.error));
+        .catch((error) => res.status(400).send(error));
     } else {
       next(new InvalidBodyError());
     }
