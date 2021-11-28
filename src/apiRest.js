@@ -25,7 +25,11 @@ router
       getNewsletter()
         .getArtist(req.body.artistId)
         .then(() => {
-          getNewsletter().sendEmail(req.body);
+          try {
+            getNewsletter().sendEmail(req.body);
+          } catch (e) {
+            console.log(e);
+          }
           res.status(200).send();
         })
         .catch((error) => res.status(error.statusCode).send(error.error));
